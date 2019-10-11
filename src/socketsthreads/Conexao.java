@@ -3,12 +3,14 @@ package socketsthreads;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Conexao extends Thread {
 
+    String tmp = "";
     Autentication aut = new Autentication();
     Socket cliente;
     String nomeUser;
@@ -16,7 +18,8 @@ public class Conexao extends Thread {
     int tentativas = 0;
 
     Cliente usuario = new Cliente();
-
+    Servidor servidor = new Servidor();
+    
     Conexao(Socket conexao) {
         this.cliente = conexao;
     }
@@ -42,13 +45,12 @@ public class Conexao extends Thread {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        String tmp = "";
-
         try {
             while (!(aut.verificaNome(tmp))) {
                 tentativas++;
                 nomeUser = entrada.nextLine();
                 tmp = nomeUser;
+
                 if (tentativas == 3) {
                     saida.println("Número de tentativas excedido... Desconectando...");
                     saida.close();
@@ -58,6 +60,8 @@ public class Conexao extends Thread {
                 }
 
                 if (aut.verificaNome(tmp)) {
+                    System.out.println("TAMANHO LISTA: " + servidor.cnxLista.size());
+                    existeNome(servidor.cnxLista);
                     usuario.setNome(nomeUser.substring(6, nomeUser.length()));
                     saida.println(usuario.getNome());
                     break;
@@ -71,7 +75,23 @@ public class Conexao extends Thread {
         while (entrada.hasNextLine()) {
             String msg = entrada.nextLine();;
         }
-
+        
+        
+        
     }
     
+    public  boolean existeNome(ArrayList<Conexao> lista) {
+        for (int i = 0; i < lista.size(); i++) {
+           if (lista.get(lista.size()-1).tmp.equals(lista.get(i).nomeUser)) {
+               System.out.println("NOME ATUAL: " + nomeUser);
+               System.out.println("NOME ITERADO: " + lista.get(i).nomeUser);
+               return true;
+           } 
+        } return false;
+    }
+   
+
+
+    
+
 }
