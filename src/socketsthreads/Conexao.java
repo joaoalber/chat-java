@@ -64,7 +64,7 @@ public class Conexao extends Thread {
                     System.out.println("TAMANHO LISTA: " + servidor.cnxLista.size());
                                          
                         while (!(existeNome(servidor.cnxLista))) {
-                            saida.println(" digite denovo amoreh kk");
+                            saida.println("Nome já existente, favor digitar outro");
                             System.out.println("");
                             
                             nomeUser = entrada.nextLine();
@@ -92,8 +92,6 @@ public class Conexao extends Thread {
 
             System.out.println("NOME ITERADO: " + lista.get(i).nomeUser);
             if (lista.get(lista.size() - 1).tmp.equals(lista.get(i).nomeUser)) {
-                
-                System.out.println("OH SUA DESGRAÇADA ESSE NOME JÀ TEM PO !!!");
                 
                 return false;
             }
