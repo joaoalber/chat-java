@@ -51,7 +51,6 @@ public class Conexao extends Thread {
                 nomeUser = entrada.nextLine();
                 tmp = nomeUser;
 
-                System.out.println("TAMANHO LISTA: " + servidor.cnxLista.size());
 
                 while (existeNome(servidor.cnxLista)) {
                     saida.println("Nome já existente, favor digitar outro");
@@ -73,12 +72,13 @@ public class Conexao extends Thread {
                     servidor.cnxLista.remove(servidor.cnxLista.size() - 1);
                     saida.close();
                     cliente.close();
-                    System.out.println("Usuário " + cliente.getLocalAddress() + " desconectado. Motivo: número de tentativas excedido");
+                    System.out.println("Usuário " + cliente.getInetAddress().getHostAddress() + " desconectado. Motivo: número de tentativas excedido");
                     tentativas = 0;
                     break;
                 }
-                
+                tentativas++;
             }
+            
             
         } catch (IOException ex) {
 
@@ -92,8 +92,7 @@ public class Conexao extends Thread {
 
     public boolean existeNome(ArrayList<Conexao> lista) {
         for (int i = 0; i < lista.size() - 1; i++) {
-
-            System.out.println("NOME ITERADO: " + lista.get(i).nomeUser);
+            
             if (lista.get(lista.size() - 1).tmp.equals(lista.get(i).nomeUser)) {
                 return true;
             }
