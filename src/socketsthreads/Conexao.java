@@ -47,35 +47,38 @@ public class Conexao extends Thread {
 
         try {
             while (!(aut.verificaNome(tmp))) {
-                tentativas++;
+
                 nomeUser = entrada.nextLine();
                 tmp = nomeUser;
 
-                if (tentativas == 3) {
+                System.out.println("TAMANHO LISTA: " + servidor.cnxLista.size());
+
+                while (existeNome(servidor.cnxLista)) {
+                    saida.println("Nome já existente, favor digitar outro");
+
+                    nomeUser = entrada.nextLine();
+                    tmp = nomeUser;
+
+                }
+
+                if (aut.verificaNome(tmp)) {
+                    usuario.setNome(nomeUser.substring(6, nomeUser.length()));
+                    saida.println("Bem-vindo ao chat " + usuario.getNome());
+                } else {
+                    saida.println("Nome de usuário inválido. Tente 'login:' acompanhando do nome.");
+                }
+
+                if (estourouTentativas()) {
                     saida.println("Número de tentativas excedido... Desconectando...");
+                    servidor.cnxLista.remove(servidor.cnxLista.size() - 1);
                     saida.close();
                     cliente.close();
                     System.out.println("Usuário " + cliente.getLocalAddress() + " desconectado. Motivo: número de tentativas excedido");
                     tentativas = 0;
                     break;
                 }
-
-                if ((aut.verificaNome(tmp))) {
-                    System.out.println("TAMANHO LISTA: " + servidor.cnxLista.size());
-                                         
-                        while (!(existeNome(servidor.cnxLista))) {
-                            saida.println("Nome já existente, favor digitar outro");
-                            System.out.println("");
-                            
-                            nomeUser = entrada.nextLine();
-                            tmp = nomeUser;
-                        }
-                        usuario.setNome(nomeUser.substring(6, nomeUser.length()));
-                        saida.println(usuario.getNome());
-                        break;
-                    }
-                }
-                saida.println("Nome de usuário inválido. Tente 'login:' acompanhando do nome.");
+                
+            }
             
         } catch (IOException ex) {
 
@@ -92,14 +95,17 @@ public class Conexao extends Thread {
 
             System.out.println("NOME ITERADO: " + lista.get(i).nomeUser);
             if (lista.get(lista.size() - 1).tmp.equals(lista.get(i).nomeUser)) {
-                
-                return false;
+                return true;
             }
 
         }
 
-        return true;
+        return false;
 
+    }
+
+    public boolean estourouTentativas() {
+        return tentativas == 3;
     }
 
 }
