@@ -47,7 +47,7 @@ public class Conexao extends Thread {
 
         try {
             while (!(aut.verificaNome(tmp))) {
-
+                tentativas++;
                 nomeUser = entrada.nextLine();
                 tmp = nomeUser;
 
@@ -66,17 +66,17 @@ public class Conexao extends Thread {
                 } else {
                     saida.println("Nome de usuário inválido. Tente 'login:' acompanhando do nome.");
                 }
-
+                
                 if (estourouTentativas()) {
                     saida.println("Número de tentativas excedido... Desconectando...");
-                    servidor.cnxLista.remove(servidor.cnxLista.size() - 1);
                     saida.close();
                     cliente.close();
+                    servidor.cnxLista.remove(servidor.cnxLista.size() - 1);
                     System.out.println("Usuário " + cliente.getInetAddress().getHostAddress() + " desconectado. Motivo: número de tentativas excedido");
                     tentativas = 0;
                     break;
                 }
-                tentativas++;
+                
             }
             
             
