@@ -10,12 +10,12 @@ import java.util.logging.Logger;
 
 public class Conexao extends Thread {
 
-    String tmp = "";
     Autentication aut = new Autentication();
     Socket cliente;
-    String nomeUser;
+    String nomeUser = "";
     boolean login;
     int tentativas = 0;
+    PrintStream saida = null;
 
     Cliente usuario = new Cliente();
     Servidor servidor = new Servidor();
@@ -37,7 +37,6 @@ public class Conexao extends Thread {
         } catch (IOException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        PrintStream saida = null;
 
         try {
             saida = new PrintStream(cliente.getOutputStream());
@@ -46,40 +45,33 @@ public class Conexao extends Thread {
         }
 
         try {
-            while (!(aut.verificaNome(tmp))) {
-                tentativas++;
-                nomeUser = entrada.nextLine();
-                tmp = nomeUser;
 
+            while (!(aut.verificaNome(nomeUser))) {
 
-                while (existeNome(servidor.cnxLista)) {
-                    saida.println("Nome já existente, favor digitar outro");
-
-                    nomeUser = entrada.nextLine();
-                    tmp = nomeUser;
-
-                }
-
-                if (aut.verificaNome(tmp)) {
-                    usuario.setNome(nomeUser.substring(6, nomeUser.length()));
-                    saida.println("Bem-vindo ao chat " + usuario.getNome());
-                } else {
-                    saida.println("Nome de usuário inválido. Tente 'login:' acompanhando do nome.");
-                }
-                
                 if (estourouTentativas()) {
-                    saida.println("Número de tentativas excedido... Desconectando...");
-                    saida.close();
-                    cliente.close();
-                    servidor.cnxLista.remove(servidor.cnxLista.size() - 1);
-                    System.out.println("Usuário " + cliente.getInetAddress().getHostAddress() + " desconectado. Motivo: número de tentativas excedido");
-                    tentativas = 0;
+                    desconectar();
                     break;
                 }
-                
+                nomeUser = entrada.nextLine();
+                while (existeNome(servidor.cnxLista)) {
+                    if (estourouTentativas()) {
+                        desconectar();
+                        break;
+                    }
+                    tentativas++;
+                    saida.println("Nome já existente, favor digitar outro");
+                    nomeUser = entrada.nextLine();
+                }
+                tentativas++;
+                if (aut.verificaNome(nomeUser)) {
+                    bemvindo(usuario);
+                }
+                saida.println("Nome de usuário inválido. Tente 'login:' acompanhando do nome.");
+
             }
             
             
+
         } catch (IOException ex) {
 
         }
@@ -92,8 +84,8 @@ public class Conexao extends Thread {
 
     public boolean existeNome(ArrayList<Conexao> lista) {
         for (int i = 0; i < lista.size() - 1; i++) {
-            
-            if (lista.get(lista.size() - 1).tmp.equals(lista.get(i).nomeUser)) {
+
+            if (lista.get(lista.size() - 1).nomeUser.equals(lista.get(i).nomeUser)) {
                 return true;
             }
 
@@ -104,7 +96,21 @@ public class Conexao extends Thread {
     }
 
     public boolean estourouTentativas() {
-        return tentativas == 3;
+        return tentativas >= 3;
     }
 
+    public void desconectar() throws IOException {
+        saida.println("Número de tentativas excedido... Desconectando...");
+        System.out.println("Usuário " + cliente.getInetAddress().getHostAddress() + " desconectado. Motivo: número de tentativas excedido");
+        saida.close();
+        cliente.close();
+        servidor.cnxLista.remove(servidor.cnxLista.size() - 1);
+    }
+
+    public void bemvindo(Cliente nome) {
+        nome.setNome(nomeUser.substring(6, nomeUser.length()));
+        saida.println("Bem-vindo ao chat " + usuario.getNome());
+    }
+    
+  
 }
