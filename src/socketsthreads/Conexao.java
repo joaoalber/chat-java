@@ -65,6 +65,7 @@ public class Conexao extends Thread {
                 tentativas++;
                 if (aut.verificaNome(nomeUser)) {
                     bemvindo(usuario);
+                    break;
                 }
                 saida.println("Nome de usuário inválido. Tente 'login:' acompanhando do nome.");
 
