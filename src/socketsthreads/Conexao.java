@@ -14,7 +14,6 @@ public class Conexao extends Thread {
     Socket cliente;
     String nomeUser = "";
     boolean login;
-    int tentativas = 0;
     PrintStream saida = null;
 
     Cliente usuario = new Cliente();
@@ -46,39 +45,26 @@ public class Conexao extends Thread {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        try {
+
 
             while (!(aut.verificaNome(nomeUser))) {
 
-                if (estourouTentativas()) {
-                    desconectarTentativas();
-                    break;
-                }
                 nomeUser = entrada.nextLine();
                 while (existeNome(servidor.cnxLista)) {
-                    if (estourouTentativas()) {
-                        desconectarTentativas();
-                        break;
-                    }
-                    tentativas++;
-                    saida.println("Nome já existente, favor digitar outro");
+                    saida.println("login:false");
                     nomeUser = entrada.nextLine();
                 }
-                tentativas++;
+
                 if (aut.verificaNome(nomeUser)) {
-                    bemvindo(usuario);
+                    saida.println("login:true");
                     servidor.nomes.add(usuario.getNome());
                     servidor.listar_usuarios();
                     break;
                 }
-                saida.println("Nome de usuário inválido. Tente 'login:' acompanhando do nome.");
 
             }
 
-        } catch (IOException ex) {
-
-        }
-
+        
         while (entrada.hasNextLine()) {
             String msg = entrada.nextLine();
             if (msg.equals("sair")) {
@@ -107,10 +93,6 @@ public class Conexao extends Thread {
 
     }
 
-    public boolean estourouTentativas() {
-        return tentativas >= 3;
-    }
-
     public void desconectar(int index) throws IOException {
         servidor.cnxLista.remove(index);
         servidor.nomes.remove(index);
@@ -124,21 +106,20 @@ public class Conexao extends Thread {
         nome.setNome(nomeUser.substring(6, nomeUser.length()));
         saida.println("Bem-vindo ao chat " + usuario.getNome());
     }
-    
-    public void desconectarTentativas() throws IOException {
-        saida.println("Número de tentativas excedido... Desconectando...");
-        System.out.println("Usuário " + cliente.getInetAddress().getHostAddress() + " desconectado.");
-        saida.close();
-        cliente.close();
-    }
-    
+
+    /*public void desconectarTentativas() throws IOException {
+     saida.println("Número de tentativas excedido... Desconectando...");
+     System.out.println("Usuário " + cliente.getInetAddress().getHostAddress() + " desconectado.");
+     saida.close();
+     cliente.close();
+     }*/
     public void removeByName(String nome) throws IOException {
         for (int i = 0; i < servidor.nomes.size(); i++) {
             if (servidor.nomes.get(i).equals(nome)) {
                 desconectar(i);
             }
         }
-       
+
     }
 
 }

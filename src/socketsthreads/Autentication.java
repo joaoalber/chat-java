@@ -15,9 +15,10 @@ public class Autentication {
 
     public boolean verificaNome(String nome) {
         if (nome.length() < 6) {
-            return false;
+          
+            return false ;
         }
-        return nome.substring(0, 6).equals("login:") ? true : false;
+        return nome.substring(0, 6).equals("login:") ? true :false;
     }
     
     
