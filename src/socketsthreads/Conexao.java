@@ -48,7 +48,6 @@ public class Conexao extends Thread {
 
 
             while (!(aut.verificaNome(nomeUser))) {
-
                 nomeUser = entrada.nextLine();
                 while (existeNome(servidor.cnxLista)) {
                     saida.println("login:false");
@@ -57,9 +56,12 @@ public class Conexao extends Thread {
 
                 if (aut.verificaNome(nomeUser)) {
                     saida.println("login:true");
+                    usuario.setNome(nomeUser.substring(6, nomeUser.length()));
                     servidor.nomes.add(usuario.getNome());
                     servidor.listar_usuarios();
                     break;
+                } else {
+                    saida.println("login:false");
                 }
 
             }
