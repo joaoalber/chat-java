@@ -83,7 +83,6 @@ public class Conexao extends Thread {
             String msg = entrada.nextLine();
             if (msg.equals("sair")) {
                 try {
-                    System.out.println("MEU NOME PARA PARAMETRO É: " + usuario.getNome());
                     removeByName(usuario.getNome());
                     servidor.listar_usuarios();
                 } catch (IOException ex) {
@@ -113,7 +112,6 @@ public class Conexao extends Thread {
     }
 
     public void desconectar(int index) throws IOException {
-        System.out.println("ENTREI PRA DESCONECTAR");
         servidor.cnxLista.remove(index);
         servidor.nomes.remove(index);
         System.out.println("Usuário " + cliente.getInetAddress().getHostAddress() + " desconectado.");

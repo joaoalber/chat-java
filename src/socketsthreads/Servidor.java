@@ -47,7 +47,6 @@ public class Servidor {
                    
                 }
             }
-            //cnxLista.get(i).saida.println();
 
         }
 
