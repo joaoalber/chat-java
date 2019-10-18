@@ -18,8 +18,9 @@ public class Autentication {
             return false;
         }
         return nome.substring(0, 6).equals("login:") ? true : false;
-
     }
+    
+    
 
 
 }

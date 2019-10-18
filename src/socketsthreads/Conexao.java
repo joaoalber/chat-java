@@ -20,6 +20,8 @@ public class Conexao extends Thread {
     Cliente usuario = new Cliente();
     Servidor servidor = new Servidor();
 
+    ArrayList<String> nomes = new ArrayList<>();
+
     Conexao(Socket conexao) {
         this.cliente = conexao;
     }
@@ -49,13 +51,13 @@ public class Conexao extends Thread {
             while (!(aut.verificaNome(nomeUser))) {
 
                 if (estourouTentativas()) {
-                    desconectar();
+                    desconectarTentativas();
                     break;
                 }
                 nomeUser = entrada.nextLine();
                 while (existeNome(servidor.cnxLista)) {
                     if (estourouTentativas()) {
-                        desconectar();
+                        desconectarTentativas();
                         break;
                     }
                     tentativas++;
@@ -65,13 +67,13 @@ public class Conexao extends Thread {
                 tentativas++;
                 if (aut.verificaNome(nomeUser)) {
                     bemvindo(usuario);
+                    servidor.nomes.add(usuario.getNome());
+                    servidor.listar_usuarios();
                     break;
                 }
                 saida.println("Nome de usuário inválido. Tente 'login:' acompanhando do nome.");
 
             }
-            
-            
 
         } catch (IOException ex) {
 
@@ -79,6 +81,16 @@ public class Conexao extends Thread {
 
         while (entrada.hasNextLine()) {
             String msg = entrada.nextLine();
+            if (msg.equals("sair")) {
+                try {
+                    System.out.println("MEU NOME PARA PARAMETRO É: " + usuario.getNome());
+                    removeByName(usuario.getNome());
+                    servidor.listar_usuarios();
+                } catch (IOException ex) {
+                    Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
         }
 
     }
@@ -100,12 +112,14 @@ public class Conexao extends Thread {
         return tentativas >= 3;
     }
 
-    public void desconectar() throws IOException {
-        saida.println("Número de tentativas excedido... Desconectando...");
-        System.out.println("Usuário " + cliente.getInetAddress().getHostAddress() + " desconectado. Motivo: número de tentativas excedido");
+    public void desconectar(int index) throws IOException {
+        System.out.println("ENTREI PRA DESCONECTAR");
+        servidor.cnxLista.remove(index);
+        servidor.nomes.remove(index);
+        System.out.println("Usuário " + cliente.getInetAddress().getHostAddress() + " desconectado.");
         saida.close();
         cliente.close();
-        servidor.cnxLista.remove(servidor.cnxLista.size() - 1);
+
     }
 
     public void bemvindo(Cliente nome) {
@@ -113,5 +127,20 @@ public class Conexao extends Thread {
         saida.println("Bem-vindo ao chat " + usuario.getNome());
     }
     
-  
+    public void desconectarTentativas() throws IOException {
+        saida.println("Número de tentativas excedido... Desconectando...");
+        System.out.println("Usuário " + cliente.getInetAddress().getHostAddress() + " desconectado.");
+        saida.close();
+        cliente.close();
+    }
+    
+    public void removeByName(String nome) throws IOException {
+        for (int i = 0; i < servidor.nomes.size(); i++) {
+            if (servidor.nomes.get(i).equals(nome)) {
+                desconectar(i);
+            }
+        }
+       
+    }
+
 }
