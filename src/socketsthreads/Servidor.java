@@ -40,17 +40,33 @@ public class Servidor {
             for (int j = 0; j < nomes.size(); j++) {
                 if (nomes.size() - 1 == j) {
                     cnxLista.get(i).saida.println(nomes.get(j));
-                    
-                   
+
                 } else {
                     cnxLista.get(i).saida.print(nomes.get(j) + ";");
-                   
+
                 }
             }
 
         }
 
     }
-            
 
+    public static void enviarMensagem(String[] usuarios, String mensagem) {
+        System.out.println(usuarios[0]);
+        if (usuarios[0].equals("*")) {
+            for (int i = 0; i < cnxLista.size(); i++) {
+                cnxLista.get(i).saida.println(mensagem);
+            }
+        } else {
+            for (int i = 0; i < cnxLista.size(); i++) {
+                for (int j = 0; j < usuarios.length; j++) {
+                    if (cnxLista.get(i).usuario.getNome().equals(usuarios[j])) {
+                        cnxLista.get(i).saida.println(mensagem);
+                    }
+                }
+            }
+        }
+    }
+    
+    
 }

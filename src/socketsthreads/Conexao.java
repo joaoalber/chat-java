@@ -76,8 +76,13 @@ public class Conexao extends Thread {
                 } catch (IOException ex) {
                     Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } else if (msg.substring(0,9).equals("mensagem:")) {
+                String nomes = msg.substring(9, msg.lastIndexOf(":"));
+                String[] nome = nomes.split(";");
+                String mensagem = msg.substring(msg.lastIndexOf(":"), msg.length());
+                String transmitirMensagem = "transmitir:" + usuario.getNome() + ":" + nomes + mensagem;
+                servidor.enviarMensagem(nome, transmitirMensagem);
             }
-
         }
 
     }
