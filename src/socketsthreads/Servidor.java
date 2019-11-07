@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 public class Servidor {
 
-    static ArrayList<Conexao> cnxLista = new ArrayList();
-    static ArrayList<String> nomes = new ArrayList();
+    public ArrayList<Conexao> cnxLista = new ArrayList();
+    public ArrayList<String> nomes = new ArrayList();
 
-    public static void main(String[] args) throws IOException {
+    public void iniciarServidor() throws IOException {
         ServerSocket servidor = new ServerSocket(2424);
         ArrayList<Socket> clientes = new ArrayList();
         Autentication aut = new Autentication();
@@ -34,7 +34,7 @@ public class Servidor {
 
     }
 
-    public static void listar_usuarios() {
+    public void listar_usuarios() throws IOException {
         for (int i = 0; i < cnxLista.size(); i++) {
             cnxLista.get(i).saida.print("lista_usuarios:");
             for (int j = 0; j < nomes.size(); j++) {
@@ -51,7 +51,7 @@ public class Servidor {
 
     }
 
-    public static void enviarMensagem(String[] usuarios, String mensagem) {
+    public void enviarMensagem(String[] usuarios, String mensagem) throws IOException {
         System.out.println(usuarios[0]);
         if (usuarios[0].equals("*")) {
             for (int i = 0; i < cnxLista.size(); i++) {

@@ -58,7 +58,11 @@ public class Conexao extends Thread {
                     saida.println("login:true");
                     usuario.setNome(nomeUser.substring(6, nomeUser.length()));
                     servidor.nomes.add(usuario.getNome());
-                    servidor.listar_usuarios();
+                    try {
+                        servidor.listar_usuarios();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     break;
                 } else {
                     saida.println("login:false");
@@ -81,7 +85,11 @@ public class Conexao extends Thread {
                 String[] nome = nomes.split(";");
                 String mensagem = msg.substring(msg.lastIndexOf(":"), msg.length());
                 String transmitirMensagem = "transmitir:" + usuario.getNome() + ":" + nomes + mensagem;
-                servidor.enviarMensagem(nome, transmitirMensagem);
+                try {
+                    servidor.enviarMensagem(nome, transmitirMensagem);
+                } catch (IOException ex) {
+                    Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 
