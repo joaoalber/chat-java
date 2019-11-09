@@ -9,13 +9,13 @@ import java.util.ArrayList;
 
 public class Servidor {
 
-    public ArrayList<Conexao> cnxLista = new ArrayList();
-    public ArrayList<String> nomes = new ArrayList();
+    static ArrayList<Conexao> cnxLista = new ArrayList();
+    static ArrayList<String> nomes = new ArrayList();
 
-    public void iniciarServidor() throws IOException {
+    public static void main(String[] args) throws IOException {
         ServerSocket servidor = new ServerSocket(2424);
         ArrayList<Socket> clientes = new ArrayList();
-        Autentication aut = new Autentication();
+
 
         System.out.println("Porta 2424 aberta! Aguardando conexão...");
 

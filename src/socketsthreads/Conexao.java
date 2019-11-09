@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 public class Conexao extends Thread {
 
-    Autentication aut = new Autentication();
     Socket cliente;
     String nomeUser = "";
     boolean login;
@@ -31,68 +30,16 @@ public class Conexao extends Thread {
 
         System.out.println("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
 
-        Scanner entrada = null;
+       
 
-        try {
-            entrada = new Scanner(cliente.getInputStream());
-        } catch (IOException ex) {
-            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
-            saida = new PrintStream(cliente.getOutputStream());
-        } catch (IOException ex) {
-            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
-
-            while (!(aut.verificaNome(nomeUser))) {
-                nomeUser = entrada.nextLine();
-                while (existeNome(servidor.cnxLista)) {
-                    saida.println("login:false");
-                    nomeUser = entrada.nextLine();
-                }
-
-                if (aut.verificaNome(nomeUser)) {
-                    saida.println("login:true");
-                    usuario.setNome(nomeUser.substring(6, nomeUser.length()));
-                    servidor.nomes.add(usuario.getNome());
-                    try {
-                        servidor.listar_usuarios();
-                    } catch (IOException ex) {
-                        Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    break;
-                } else {
-                    saida.println("login:false");
-                }
-
-            }
 
         
-        while (entrada.hasNextLine()) {
-            String msg = entrada.nextLine();
-            if (msg.equals("sair")) {
-                try {
-                    removeByName(usuario.getNome());
-                    servidor.listar_usuarios();
-                } catch (IOException ex) {
-                    Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else if (msg.substring(0,9).equals("mensagem:")) {
-                String nomes = msg.substring(9, msg.lastIndexOf(":"));
-                String[] nome = nomes.split(";");
-                String mensagem = msg.substring(msg.lastIndexOf(":"), msg.length());
-                String transmitirMensagem = "transmitir:" + usuario.getNome() + ":" + nomes + mensagem;
-                try {
-                    servidor.enviarMensagem(nome, transmitirMensagem);
-                } catch (IOException ex) {
-                    Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
+      
 
+    }
+    
+    public void login(String nome) {
+        usuario.setNome(nomeUser);
     }
 
     public boolean existeNome(ArrayList<Conexao> lista) {
@@ -117,17 +64,6 @@ public class Conexao extends Thread {
 
     }
 
-    public void bemvindo(Cliente nome) {
-        nome.setNome(nomeUser.substring(6, nomeUser.length()));
-        saida.println("Bem-vindo ao chat " + usuario.getNome());
-    }
-
-    /*public void desconectarTentativas() throws IOException {
-     saida.println("Número de tentativas excedido... Desconectando...");
-     System.out.println("Usuário " + cliente.getInetAddress().getHostAddress() + " desconectado.");
-     saida.close();
-     cliente.close();
-     }*/
     public void removeByName(String nome) throws IOException {
         for (int i = 0; i < servidor.nomes.size(); i++) {
             if (servidor.nomes.get(i).equals(nome)) {

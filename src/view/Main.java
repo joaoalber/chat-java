@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import socketsthreads.Servidor;
 
 /**
  *
@@ -18,7 +17,6 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("login-screen.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
-        
         scene.getStylesheets().add("/view/Main.css");
         stage.setScene(scene);
         stage.getIcons().add(new Image("/imagens/icon.png"));

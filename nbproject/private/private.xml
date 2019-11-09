@@ -3,9 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/joaun/Desktop/chat-java/src/javafxml/login-screen.fxml</file>
-            <file>file:/C:/Users/joaun/Desktop/chat-java/src/javafxml/JavaFXApplication2.java</file>
-            <file>file:/C:/Users/joaun/Desktop/chat-java/src/javafxml/FXMLDocumentController.java</file>
+            <file>file:/C:/Users/joaun/Desktop/chat-java/src/view/login-screen.fxml</file>
+            <file>file:/C:/Users/joaun/Desktop/chat-java/src/socketsthreads/Servidor.java</file>
+            <file>file:/C:/Users/joaun/Desktop/chat-java/src/socketsthreads/Cliente.java</file>
+            <file>file:/C:/Users/joaun/Desktop/chat-java/src/view/Main.java</file>
+            <file>file:/C:/Users/joaun/Desktop/chat-java/src/socketsthreads/Conexao.java</file>
+            <file>file:/C:/Users/joaun/Desktop/chat-java/src/controller/ChatController.java</file>
+            <file>file:/C:/Users/joaun/Desktop/chat-java/src/view/chat.fxml</file>
+            <file>file:/C:/Users/joaun/Desktop/chat-java/src/controller/LoginController.java</file>
+            <file>file:/C:/Users/joaun/Desktop/chat-java/src/view/Main.css</file>
         </group>
     </open-files>
 </project-private>
