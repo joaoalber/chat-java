@@ -30,11 +30,12 @@ public class ServidorController {
         ServerSocket servidor = new ServerSocket(2424);
         ArrayList<Socket> clientes = new ArrayList();
         
-        System.out.println("Porta 2424 aberta! Aguardando conexão...");
+ 
 
         while (true) {
-
+            System.out.println("ENTREI NESSA MERDA");
             Socket cliente = servidor.accept();
+            System.out.println("SAI DESSE LIXO");
             clientes.add(cliente);
 
             Conexao cnx = new Conexao(cliente);
