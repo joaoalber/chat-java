@@ -4,6 +4,7 @@ import java.applet.Applet;
 import java.applet.AudioClip;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,14 +18,27 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import socketsthreads.Cliente;
 import socketsthreads.Servidor;
+import socketsthreads.Conexao;
 
 public class LoginController  {
     
     @FXML private TextField campoNome;
     
     Cliente cliente = new Cliente();
-   
+    
+    ArrayList<Conexao> conn;
+    
+    
+    public void myConn(ArrayList<Conexao> cnx){
+        conn = cnx;
+        System.out.println(conn.size());
+    }
+    
     public void fazerLogin(ActionEvent event) throws IOException {
+        //cliente.conectar();
+        System.out.println(conn.size());
+        //System.out.println(conn.get(0).usuario.getNome());
+        
         URL som = getClass().getResource("/imagens/login.wav");
         AudioClip audio = Applet.newAudioClip(som);
         audio.play();
@@ -33,11 +47,11 @@ public class LoginController  {
         Scene chat = new Scene(pai);
         
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        System.out.println("login:"+campoNome.getText());
+        
         window.setTitle("Chat");
         window.setScene(chat);
         window.show();
-        cliente.conectar();
+        
         
     }
     

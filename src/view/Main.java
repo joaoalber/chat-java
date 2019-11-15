@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author joaun
+ * @author joaunQ
  */
 public class Main extends Application {
     @Override

@@ -1,5 +1,7 @@
 package socketsthreads;
 
+import com.sun.javafx.util.TempState;
+import controller.LoginController;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
@@ -11,12 +13,12 @@ public class Servidor {
 
     static ArrayList<Conexao> cnxLista = new ArrayList();
     static ArrayList<String> nomes = new ArrayList();
-
+    static LoginController temp = new LoginController();
+    
     public static void main(String[] args) throws IOException {
         ServerSocket servidor = new ServerSocket(2424);
         ArrayList<Socket> clientes = new ArrayList();
-
-
+        
         System.out.println("Porta 2424 aberta! Aguardando conexão...");
 
         while (true) {
@@ -25,10 +27,14 @@ public class Servidor {
             clientes.add(cliente);
 
             Conexao cnx = new Conexao(cliente);
-
+            
             cnxLista.add(cnx);
-
+            System.out.println(cnxLista.size());
+            temp.myConn(cnxLista);
+            
             cnx.start();
+            
+           
 
         }
 
@@ -50,7 +56,7 @@ public class Servidor {
         }
 
     }
-
+    
     public void enviarMensagem(String[] usuarios, String mensagem) throws IOException {
         System.out.println(usuarios[0]);
         if (usuarios[0].equals("*")) {

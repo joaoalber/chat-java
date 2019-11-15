@@ -15,8 +15,8 @@ public class Conexao extends Thread {
     boolean login;
     PrintStream saida = null;
 
-    Cliente usuario = new Cliente();
-    Servidor servidor = new Servidor();
+    public Cliente usuario = new Cliente();
+    public Servidor servidor = new Servidor();
 
     ArrayList<String> nomes = new ArrayList<>();
 
@@ -31,10 +31,6 @@ public class Conexao extends Thread {
         System.out.println("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
 
        
-
-
-        
-      
 
     }
     
