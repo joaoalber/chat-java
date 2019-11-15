@@ -17,14 +17,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import socketsthreads.Cliente;
-import socketsthreads.Servidor;
 import socketsthreads.Conexao;
 
 public class LoginController  {
     
     @FXML private TextField campoNome;
     
-    Cliente cliente = new Cliente();
+    
     
     ArrayList<Conexao> conn;
     
@@ -35,7 +34,7 @@ public class LoginController  {
     }
     
     public void fazerLogin(ActionEvent event) throws IOException {
-        //cliente.conectar();
+        
         System.out.println(conn.size());
         //System.out.println(conn.get(0).usuario.getNome());
         
@@ -54,9 +53,6 @@ public class LoginController  {
         
         
     }
-    
-    public void autenticar() {
-        
-    }
+   
     
 }

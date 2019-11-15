@@ -1,5 +1,7 @@
 package socketsthreads;
 
+import controller.LoginController;
+import controller.ServidorController;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
@@ -16,11 +18,11 @@ public class Conexao extends Thread {
     PrintStream saida = null;
 
     public Cliente usuario = new Cliente();
-    public Servidor servidor = new Servidor();
+    public ServidorController servidor = new ServidorController();
 
     ArrayList<String> nomes = new ArrayList<>();
 
-    Conexao(Socket conexao) {
+    public Conexao(Socket conexao) {
         this.cliente = conexao;
     }
 
@@ -30,7 +32,6 @@ public class Conexao extends Thread {
 
         System.out.println("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
 
-       
 
     }
     

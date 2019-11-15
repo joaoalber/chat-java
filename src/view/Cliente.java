@@ -1,19 +1,24 @@
 package view;
 
+import java.net.Socket;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import socketsthreads.Cliente;
 
 /**
  *
  * @author joaunQ
  */
-public class Main extends Application {
+public class Cliente extends Application {
+    
+    
     @Override
     public void start(Stage stage) throws Exception {
+        Socket cliente = new Socket("127.0.0.1", 2424);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("login-screen.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);

@@ -1,21 +1,32 @@
-package socketsthreads;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package controller;
 
-import com.sun.javafx.util.TempState;
-import controller.LoginController;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
+import socketsthreads.Conexao;
 
-public class Servidor {
+/**
+ * FXML Controller class
+ *
+ * @author cg1700421
+ */
+public class ServidorController {
 
-    static ArrayList<Conexao> cnxLista = new ArrayList();
-    static ArrayList<String> nomes = new ArrayList();
-    static LoginController temp = new LoginController();
+    public ArrayList<Conexao> cnxLista = new ArrayList();
+    public ArrayList<String> nomes = new ArrayList();
+    public LoginController temp = new LoginController();  
     
-    public static void main(String[] args) throws IOException {
+    public void startarServidor() throws IOException {
+        
         ServerSocket servidor = new ServerSocket(2424);
         ArrayList<Socket> clientes = new ArrayList();
         
@@ -29,7 +40,9 @@ public class Servidor {
             Conexao cnx = new Conexao(cliente);
             
             cnxLista.add(cnx);
+            
             System.out.println(cnxLista.size());
+            
             temp.myConn(cnxLista);
             
             cnx.start();
@@ -39,8 +52,10 @@ public class Servidor {
         }
 
     }
-
-    public void listar_usuarios() throws IOException {
+    
+   
+    
+    /* public void listar_usuarios() throws IOException {
         for (int i = 0; i < cnxLista.size(); i++) {
             cnxLista.get(i).saida.print("lista_usuarios:");
             for (int j = 0; j < nomes.size(); j++) {
@@ -55,9 +70,9 @@ public class Servidor {
 
         }
 
-    }
+    } */
     
-    public void enviarMensagem(String[] usuarios, String mensagem) throws IOException {
+    /* public void enviarMensagem(String[] usuarios, String mensagem) throws IOException {
         System.out.println(usuarios[0]);
         if (usuarios[0].equals("*")) {
             for (int i = 0; i < cnxLista.size(); i++) {
@@ -72,7 +87,6 @@ public class Servidor {
                 }
             }
         }
-    }
-    
+    } */
     
 }
