@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="194.0" prefWidth="301.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLConexaoController">
+   <children>
+      <ImageView fitHeight="224.0" fitWidth="395.0" layoutX="-36.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true" style="-fx-image: images;">
+         <image>
+            <Image url="@../imagens/images.jpg" />
+         </image></ImageView>
+      <TextField fx:id="portaTextField" layoutX="86.0" layoutY="106.0" />
+      <Label fx:id="ip" layoutX="47.0" layoutY="62.0" text="IP" textOverrun="CLIP">
+         <font>
+            <Font name="Khmer UI" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="ipTextField" layoutX="86.0" layoutY="60.0" />
+      <Button fx:id="conectarButton" defaultButton="true" layoutX="220.0" layoutY="155.0" mnemonicParsing="false" onAction="#conectarAction" style="-fx-background-color: #000;" text="Conectar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Label fx:id="porta" layoutX="36.0" layoutY="108.0" text="Porta" textOverrun="CLIP">
+         <font>
+            <Font name="Khmer UI" size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

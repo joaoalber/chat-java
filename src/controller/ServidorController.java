@@ -31,8 +31,6 @@ public class ServidorController {
         ArrayList<Socket> clientes = new ArrayList();
         
  
-
-        while (true) {
             System.out.println("ENTREI NESSA MERDA");
             Socket cliente = servidor.accept();
             System.out.println("SAI DESSE LIXO");
@@ -50,7 +48,7 @@ public class ServidorController {
             
            
 
-        }
+        
 
     }
     

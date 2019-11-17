@@ -38,9 +38,9 @@ public class LoginController  {
         System.out.println(conn.size());
         //System.out.println(conn.get(0).usuario.getNome());
         
-        URL som = getClass().getResource("/imagens/login.wav");
-        AudioClip audio = Applet.newAudioClip(som);
-        audio.play();
+            URL som = getClass().getResource("/imagens/login.wav");
+            AudioClip audio = Applet.newAudioClip(som);
+            audio.play();
         
         Parent pai = FXMLLoader.load(getClass().getResource("/view/chat.fxml"));
         Scene chat = new Scene(pai);
