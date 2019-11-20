@@ -10,22 +10,27 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="365.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLChatController">
    <children>
-      <Pane prefHeight="503.0" prefWidth="757.0" style="-fx-background-color: #594F4F;">
+      <Pane id="fundo" prefHeight="503.0" prefWidth="757.0" style="-fx-background-color: #594F4F;" stylesheets="@../imagens/estilo.css">
          <children>
-            <Label layoutX="618.0" layoutY="28.0" text="Ninjas" textFill="WHITE">
+            <Label layoutX="618.0" layoutY="28.0" text="Ninjas" textFill="#ff9e4f">
                <font>
                   <Font name="Arial" size="21.0" />
                </font>
             </Label>
-            <Label fx:id="nicknameLabel" layoutX="157.0" layoutY="368.0" text="Logado como: " textFill="WHITE" />
-            <Button fx:id="enviarButton" defaultButton="true" layoutX="429.0" layoutY="438.0" mnemonicParsing="false" onAction="#enviarAction" prefHeight="39.0" prefWidth="102.0" style="-fx-background-color: #0a9b7e;" text="Enviar" textFill="#f2f0f0" />
+            <Label fx:id="nicknameLabel" layoutX="157.0" layoutY="368.0" text="Logado como: " textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Button fx:id="enviarButton" defaultButton="true" layoutX="429.0" layoutY="447.0" mnemonicParsing="false" onAction="#enviarAction" prefHeight="39.0" prefWidth="102.0" style="-fx-background-color: #0a9b7e;" text="Enviar" textFill="#f2f0f0" />
             <ListView fx:id="listaCliente" layoutX="567.0" layoutY="66.0" onMouseClicked="#listMouseEvent" prefHeight="391.0" prefWidth="160.0" />
-            <TextArea fx:id="campoMensagem" layoutX="157.0" layoutY="439.0" prefHeight="37.0" prefWidth="255.0" promptText="Digite sua mensagem..." />
+            <TextArea fx:id="campoMensagem" layoutX="157.0" layoutY="448.0" prefHeight="37.0" prefWidth="255.0" promptText="Digite sua mensagem..." />
             <ProgressBar fx:id="progressoBar" layoutX="586.0" layoutY="243.0" prefHeight="18.0" prefWidth="123.0" progress="0.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff4a2100" height="121.0" layoutX="14.0" layoutY="362.0" stroke="#ff9e4f" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeWidth="3.0" width="133.0" />
             <ImageView fitHeight="121.0" fitWidth="200.0" layoutX="14.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../imagens/profile5.png" />
@@ -33,9 +38,9 @@
             </ImageView>
          </children>
       </Pane>
-      <ScrollPane layoutX="20.0" layoutY="21.0" prefHeight="327.0" prefWidth="519.0">
+      <ScrollPane layoutX="20.0" layoutY="21.0" prefHeight="327.0" prefWidth="515.0">
          <content>
-            <TextArea fx:id="chatPane" editable="false" prefHeight="322.0" prefWidth="514.0" />
+            <TextArea fx:id="chatPane" editable="false" prefHeight="325.0" prefWidth="513.0" />
          </content>
       </ScrollPane>
    </children>

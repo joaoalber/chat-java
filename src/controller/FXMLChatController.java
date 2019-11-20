@@ -78,10 +78,10 @@ public class FXMLChatController implements Initializable {
                 mensagem += destino[i] + ";";
             }
             escritor.println("mensagem:" + mensagem + ":" + destino[destino.length - 1]);
-            chatPane.appendText("você enviou para " + mensagem + ":" + destino[destino.length - 1] + "\n");
+            chatPane.appendText("você enviou " + mensagem + ":" + destino[destino.length - 1] + "\n");
         } else {
             escritor.println("mensagem:" + campoMensagem.getText());
-            chatPane.appendText("você enviou para " + campoMensagem.getText() + "\n");
+            chatPane.appendText("você enviou " + campoMensagem.getText() + "\n");
         }
 
     }
