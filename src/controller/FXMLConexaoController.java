@@ -17,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import view.Principal;
 
@@ -58,7 +59,9 @@ public class FXMLConexaoController implements Initializable {
 
             Scene scene = new Scene(root);
             Stage stage = new Stage();
-
+            stage.getIcons().add(new Image("/imagens/icon.png"));
+            stage.setTitle("Fazer login");
+            stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
             FXMLLoginController.setCliente(cliente);

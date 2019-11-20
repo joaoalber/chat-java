@@ -6,30 +6,37 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="481.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLChatController">
+<AnchorPane id="AnchorPane" prefHeight="365.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLChatController">
    <children>
-      <Pane layoutY="400.0" prefHeight="83.0" prefWidth="697.0" style="-fx-background-color: #594F4F;" />
-      <Pane prefHeight="400.0" prefWidth="697.0" style="-fx-background-color: #46403e;">
+      <Pane prefHeight="503.0" prefWidth="757.0" style="-fx-background-color: #594F4F;">
          <children>
-            <ListView fx:id="listaCliente" layoutX="24.0" layoutY="37.0" onMouseClicked="#listMouseEvent" prefHeight="408.0" prefWidth="200.0" />
-            <Label layoutX="89.0" layoutY="11.0" text="Online" textFill="WHITE">
+            <Label layoutX="618.0" layoutY="28.0" text="Ninjas" textFill="WHITE">
                <font>
-                  <Font name="Georgia Bold" size="20.0" />
+                  <Font name="Arial" size="21.0" />
                </font>
             </Label>
-            <ProgressBar fx:id="progressoBar" layoutX="62.0" layoutY="191.0" prefHeight="18.0" prefWidth="123.0" progress="0.0" />
-            <ScrollPane layoutX="253.0" layoutY="32.0" prefHeight="291.0" prefWidth="392.0">
-               <content>
-                  <TextArea fx:id="chatPane" editable="false" prefHeight="296.0" prefWidth="395.0" />
-               </content></ScrollPane>
-            <Label fx:id="nicknameLabel" layoutX="538.0" layoutY="6.0" text="Logado como:" textFill="WHITE" />
-            <Button fx:id="enviarButton" defaultButton="true" layoutX="589.0" layoutY="349.0" mnemonicParsing="false" onAction="#enviarAction" prefHeight="74.0" prefWidth="83.0" style="-fx-background-color: #0a9b7e;" text="Enviar" textFill="#f2f0f0" />
+            <Label fx:id="nicknameLabel" layoutX="157.0" layoutY="368.0" text="Logado como: " textFill="WHITE" />
+            <Button fx:id="enviarButton" defaultButton="true" layoutX="429.0" layoutY="438.0" mnemonicParsing="false" onAction="#enviarAction" prefHeight="39.0" prefWidth="102.0" style="-fx-background-color: #0a9b7e;" text="Enviar" textFill="#f2f0f0" />
+            <ListView fx:id="listaCliente" layoutX="567.0" layoutY="66.0" onMouseClicked="#listMouseEvent" prefHeight="391.0" prefWidth="160.0" />
+            <TextArea fx:id="campoMensagem" layoutX="157.0" layoutY="439.0" prefHeight="37.0" prefWidth="255.0" promptText="Digite sua mensagem..." />
+            <ProgressBar fx:id="progressoBar" layoutX="586.0" layoutY="243.0" prefHeight="18.0" prefWidth="123.0" progress="0.0" />
+            <ImageView fitHeight="121.0" fitWidth="200.0" layoutX="14.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagens/profile5.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
-      <TextArea fx:id="campoMensagem" layoutX="249.0" layoutY="350.0" prefHeight="74.0" prefWidth="342.0" promptText="Digite sua mensagem..." />
+      <ScrollPane layoutX="20.0" layoutY="21.0" prefHeight="327.0" prefWidth="519.0">
+         <content>
+            <TextArea fx:id="chatPane" editable="false" prefHeight="322.0" prefWidth="514.0" />
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>
