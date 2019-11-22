@@ -22,6 +22,8 @@ public class Servidor {
 
     private static String mensagem;
     private static final JTextArea errorLog = new JTextArea(30, 30);
+    private static final JComboBox box = new JComboBox();
+    private static final JPanel container = new JPanel();
     private static Map<String, Socket> clientesLogados = new HashMap<>();
     private static String nickname;
     private static PrintStream escritor;
@@ -38,6 +40,7 @@ public class Servidor {
 
             while (true) {
                 Socket cliente = servidor.accept();
+                
                 escritor = new PrintStream(cliente.getOutputStream(), true);
                 leitor = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
 
@@ -58,11 +61,13 @@ public class Servidor {
         }
 
     }
+    
+  
 
     public static void simple() {
 
         final JFrame jFrame = new JFrame("Server Log");
-        
+
         final JScrollPane scroll = new JScrollPane(errorLog);
 
         jFrame.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -70,17 +75,44 @@ public class Servidor {
         jFrame.pack();
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setVisible(true);
+        jFrame.setSize(500, 620);
 
-   
-        
+        box.addItem("-- Escolha um usuário --");
+        container.add(box);
+
+        jFrame.getContentPane().add(container);
+
+        JButton desconectar = new JButton("Desconectar usuário");
+        desconectar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String x = String.valueOf(box.getSelectedItem());
+                    remover(x);
+                } catch (IOException ex) {
+                    Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        desconectar.setBounds(50, 100, 95, 30);
+        jFrame.add(desconectar);
 
     }
-    
+
     public static void escrever() {
         String currentText = errorLog.getText();
         String newError = new Date() + " " + mensagem;
         String newTextToAppend = newError + "\n" + currentText;
         errorLog.setText(newTextToAppend);
+    }
+
+    public static void remover(String nickname) throws IOException {
+        System.out.println("Tamanho do nome: " + nickname.length());
+        System.out.println(clientesLogados);
+        clientesLogados.remove(nickname);
+        mensagem = nickname + " saiu";
+        
+        escrever();
+
     }
 
     public static Thread thread(Socket cliente) throws InterruptedException {
@@ -98,6 +130,7 @@ public class Servidor {
                     try {
                         clientesLogados.keySet().stream().filter((remetente) -> (clientesLogados.get(remetente) == cliente)).forEachOrdered((remetente) -> {
                             nickname = remetente;
+                            box.addItem(nickname);
                         });
                         mensagem(cliente, nickname);
                     } catch (IOException ex) {
