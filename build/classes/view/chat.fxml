@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="365.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLChatController">
+<AnchorPane id="AnchorPane" prefHeight="475.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLChatController">
    <children>
       <Pane id="fundo" prefHeight="503.0" prefWidth="757.0" style="-fx-background-color: #594F4F;" stylesheets="@../imagens/estilo.css">
          <children>
@@ -31,9 +31,9 @@
             <TextArea fx:id="campoMensagem" layoutX="157.0" layoutY="448.0" prefHeight="37.0" prefWidth="255.0" promptText="Digite sua mensagem..." />
             <ProgressBar fx:id="progressoBar" layoutX="586.0" layoutY="243.0" prefHeight="18.0" prefWidth="123.0" progress="0.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff4a2100" height="121.0" layoutX="14.0" layoutY="362.0" stroke="#ff9e4f" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeWidth="3.0" width="133.0" />
-            <ImageView fitHeight="121.0" fitWidth="200.0" layoutX="14.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="124.0" fitWidth="129.0" layoutX="17.0" layoutY="361.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../imagens/profile5.png" />
+                  <Image url="@../imagens/profile7.png" />
                </image>
             </ImageView>
          </children>

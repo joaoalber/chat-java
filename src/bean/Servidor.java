@@ -1,27 +1,37 @@
 package bean;
 
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javax.swing.*;
 
 public class Servidor {
 
+    private static String mensagem;
+    private static final JTextArea errorLog = new JTextArea(30, 30);
     private static Map<String, Socket> clientesLogados = new HashMap<>();
     private static String nickname;
     private static PrintStream escritor;
     private static BufferedReader leitor;
+    
 
     public static void main(String args[]) throws IOException, InterruptedException {
 
         try {
+            simple();
             ServerSocket servidor = new ServerSocket(2424);
 
             System.out.println("Aguardando...");
@@ -31,8 +41,8 @@ public class Servidor {
                 escritor = new PrintStream(cliente.getOutputStream(), true);
                 leitor = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
 
-                System.out.println(cliente.getLocalAddress() + " entrou");
-
+                mensagem = cliente.getLocalAddress() + " entrou";
+                escrever();
                 //login
                 while (logar(cliente) == false) {
                     escritor.println("login:false");
@@ -47,6 +57,30 @@ public class Servidor {
             System.err.println("Porta inválida");
         }
 
+    }
+
+    public static void simple() {
+
+        final JFrame jFrame = new JFrame("Server Log");
+        
+        final JScrollPane scroll = new JScrollPane(errorLog);
+
+        jFrame.setLayout(new FlowLayout(FlowLayout.CENTER));
+        jFrame.getContentPane().add(scroll);
+        jFrame.pack();
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setVisible(true);
+
+   
+        
+
+    }
+    
+    public static void escrever() {
+        String currentText = errorLog.getText();
+        String newError = new Date() + " " + mensagem;
+        String newTextToAppend = newError + "\n" + currentText;
+        errorLog.setText(newTextToAppend);
     }
 
     public static Thread thread(Socket cliente) throws InterruptedException {
@@ -65,7 +99,7 @@ public class Servidor {
                         clientesLogados.keySet().stream().filter((remetente) -> (clientesLogados.get(remetente) == cliente)).forEachOrdered((remetente) -> {
                             nickname = remetente;
                         });
-                        mensagem(cliente,nickname);
+                        mensagem(cliente, nickname);
                     } catch (IOException ex) {
                         clientesLogados.remove(nickname);
                         clientesLogados.values().forEach((socket) -> {
@@ -86,7 +120,7 @@ public class Servidor {
         };
     }
 
-    public static void mensagem(Socket cliente,String remetente) throws IOException {
+    public static void mensagem(Socket cliente, String remetente) throws IOException {
         leitor = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
 
         String msg = leitor.readLine();
@@ -131,12 +165,12 @@ public class Servidor {
             }
         } else if (msg.trim().equalsIgnoreCase("sair")) {
             clientesLogados.remove(nickname);
-            System.err.println(nickname + " saiu");
+            mensagem = nickname + " saiu";
             for (Socket socket : clientesLogados.values()) {
                 escritor = new PrintStream(socket.getOutputStream(), true);
                 listar(escritor, cliente);
             }
-
+            escrever();
         } else {
             escritor.println("comando não reconhecido");
         }
