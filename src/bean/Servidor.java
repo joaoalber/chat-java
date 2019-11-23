@@ -42,7 +42,7 @@ public class Servidor {
 
             while (true) {
                 cliente = servidor.accept();
-                
+
                 escritor = new PrintStream(cliente.getOutputStream(), true);
                 leitor = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
 
@@ -63,8 +63,6 @@ public class Servidor {
         }
 
     }
-    
-    
 
     public static void simple() {
 
@@ -78,15 +76,14 @@ public class Servidor {
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setVisible(true);
         jFrame.setSize(500, 620);
-
+        JButton desconectar = new JButton("Desconectar usuário");
+        desconectar.setBounds(50, 100, 95, 30);
+        jFrame.add(desconectar);
         box.addItem("-- Escolha um usuário --");
         container.add(box);
 
         jFrame.getContentPane().add(container);
 
-        JButton desconectar = new JButton("Desconectar usuário");
-        desconectar.setBounds(50, 100, 95, 30);
-        jFrame.add(desconectar);
         desconectar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -94,11 +91,11 @@ public class Servidor {
                     remover(x);
                     clientesLogados.values().forEach((socket) -> {
                         try {
-                                escritor = new PrintStream(socket.getOutputStream(), true);
-                                listar(escritor, cliente);
-                            } catch (IOException ex1) {
-                                Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex1);
-                            }
+                            escritor = new PrintStream(socket.getOutputStream(), true);
+                            listar(escritor, cliente);
+                        } catch (IOException ex1) {
+                            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex1);
+                        }
                     });
                     chat.fecharChat();
                 } catch (IOException ex) {
@@ -106,7 +103,6 @@ public class Servidor {
                 }
             }
         });
-        
 
     }
 
@@ -121,12 +117,11 @@ public class Servidor {
         System.out.println("Tamanho do nome: " + nickname.length());
         System.out.println(clientesLogados);
         clientesLogados.remove(nickname);
-        
+
         mensagem = nickname + " foi banido";
         escrever();
 
     }
-    
 
     public static Thread thread(Socket cliente) throws InterruptedException {
 
