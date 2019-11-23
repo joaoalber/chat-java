@@ -1,5 +1,6 @@
 package controller;
 import bean.Cliente;
+import bean.Servidor;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,6 +32,7 @@ public class FXMLChatController implements Initializable {
     ObservableList<String> online;
     BufferedReader leitor;
     PrintStream escritor;
+    Servidor servidor;
 
     public static void setCliente(Cliente cliente) {
         FXMLChatController.cliente = cliente;
@@ -99,6 +101,13 @@ public class FXMLChatController implements Initializable {
 
     public FXMLChatController() throws IOException {
         this.leitor = new BufferedReader(new InputStreamReader(cliente.getSocket().getInputStream()));
+    }
+    
+    public void fecharChat() {
+
+            Stage tela = (Stage) enviarButton.getScene().getWindow();
+            tela.close();
+        System.out.println("FECHEI");
     }
 
     @FXML
