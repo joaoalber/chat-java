@@ -2,6 +2,7 @@ package controller;
 
 import bean.Cliente;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -23,8 +24,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class FXMLChatController implements Initializable {
@@ -68,10 +72,15 @@ public class FXMLChatController implements Initializable {
 
     @FXML
     private TextArea campoMensagem;
+
     @FXML
     private Label nicknameLabel = new Label();
+
     @FXML
     private TextArea chatPane;
+
+    @FXML
+    private ImageView imageView;
 
     @FXML
     void enviarAction(ActionEvent event) throws IOException, InterruptedException {
@@ -105,6 +114,19 @@ public class FXMLChatController implements Initializable {
 
     }
 
+    public void mudarAvatar() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")+"/src/imagens"));
+        
+        int result = fileChooser.showOpenDialog(fileChooser);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            File file = new File(selectedFile.getAbsolutePath());
+            Image image = new Image(file.toURI().toString());
+            imageView.setImage(image);
+        }
+    }
+
     public void retornarButton() throws InterruptedException {
         thread.sleep(5000);
         enviarButton.setDisable(false);
@@ -133,8 +155,8 @@ public class FXMLChatController implements Initializable {
                                 } catch (IOException ex) {
                                     Logger.getLogger(FXMLChatController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
-                                
-                                }
+
+                            }
                             );
 
                         }
