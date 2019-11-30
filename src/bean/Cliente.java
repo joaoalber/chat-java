@@ -30,7 +30,7 @@ public class Cliente {
     }
 
     public static void main(String args[]) throws IOException {
-        Cliente socket = new Cliente("127.0.0.1", 6666);
+        Cliente socket = new Cliente("127.0.0.1", 2424);
 
         //login do cliente
         logar();
@@ -68,6 +68,10 @@ public class Cliente {
 
     public Socket getSocket() {
         return cliente;
+    }
+    
+    public void setSocket(Socket cliente) {
+        this.cliente = cliente;
     }
 
     public static void logar() throws IOException {

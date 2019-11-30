@@ -30,10 +30,9 @@ public class Servidor {
     private static PrintStream escritor;
     private static BufferedReader leitor;
     private static Socket cliente;
-    static FXMLChatController chat;
-
+    private static String msg;
+    
     public static void main(String args[]) throws IOException, InterruptedException {
-
         try {
             simple();
             ServerSocket servidor = new ServerSocket(2424);
@@ -54,6 +53,7 @@ public class Servidor {
 
                 }
 
+                box.addItem(msg);
                 thread(cliente).start();
 
             }
@@ -81,14 +81,18 @@ public class Servidor {
         jFrame.add(desconectar);
         box.addItem("-- Escolha um usuário --");
         container.add(box);
-
+        
         jFrame.getContentPane().add(container);
 
         desconectar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String x = String.valueOf(box.getSelectedItem());
+                    box.removeItemAt(box.getSelectedIndex());
+
                     remover(x);
+                    
+                    
                     clientesLogados.values().forEach((socket) -> {
                         try {
                             escritor = new PrintStream(socket.getOutputStream(), true);
@@ -97,7 +101,6 @@ public class Servidor {
                             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex1);
                         }
                     });
-                    chat.fecharChat();
                 } catch (IOException ex) {
                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -105,7 +108,8 @@ public class Servidor {
         });
 
     }
-
+    
+  
     public static void escrever() {
         String currentText = errorLog.getText();
         String newError = new Date() + " " + mensagem;
@@ -117,7 +121,6 @@ public class Servidor {
         System.out.println("Tamanho do nome: " + nickname.length());
         System.out.println(clientesLogados);
         clientesLogados.remove(nickname);
-
         mensagem = nickname + " foi banido";
         escrever();
 
@@ -138,11 +141,11 @@ public class Servidor {
                     try {
                         clientesLogados.keySet().stream().filter((remetente) -> (clientesLogados.get(remetente) == cliente)).forEachOrdered((remetente) -> {
                             nickname = remetente;
-                            box.addItem(nickname);
                         });
+                        
                         mensagem(cliente, nickname);
                     } catch (IOException ex) {
-                        clientesLogados.remove(nickname);
+                        clientesLogados.remove(nickname);   
                         clientesLogados.values().forEach((socket) -> {
                             try {
                                 escritor = new PrintStream(socket.getOutputStream(), true);
@@ -232,7 +235,7 @@ public class Servidor {
     }
 
     public static boolean logar(Socket cliente) throws IOException {
-        String msg = leitor.readLine();
+        msg = leitor.readLine();
         if (msg.startsWith("login:")) {
             msg = msg.substring(6);
             msg = msg.replace("login:", "");

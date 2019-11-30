@@ -1,5 +1,6 @@
 package view;
 
+import bean.Servidor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +14,6 @@ public class Principal extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Conexao.fxml"));
       
-        
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.getIcons().add(new Image("/imagens/icon.png"));

@@ -1,6 +1,6 @@
 package controller;
+
 import bean.Cliente;
-import bean.Servidor;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,15 +24,17 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 
 public class FXMLChatController implements Initializable {
 
     private static Cliente cliente;
-    private static String nickname; 
+    private static String nickname;
     ObservableList<String> online;
     BufferedReader leitor;
     PrintStream escritor;
-    Servidor servidor;
+    private boolean x = true;
+    private boolean banido;
 
     public static void setCliente(Cliente cliente) {
         FXMLChatController.cliente = cliente;
@@ -41,7 +43,14 @@ public class FXMLChatController implements Initializable {
     public static void setNickname(String nickname) {
         FXMLChatController.nickname = nickname;
     }
-    
+
+    public static String getNickname() {
+        return FXMLChatController.nickname;
+    }
+
+    public static Cliente getCliente() {
+        return FXMLChatController.cliente;
+    }
 
     @FXML
     private ListView<String> listaCliente;
@@ -63,14 +72,21 @@ public class FXMLChatController implements Initializable {
     void enviarAction(ActionEvent event) throws IOException {
         
         escritor = new PrintStream(cliente.getSocket().getOutputStream(), true);
-        
-        if (campoMensagem.getText().trim().equalsIgnoreCase("sair")) {
-           
-            escritor.println("sair");
-                   Stage tela = (Stage) enviarButton.getScene().getWindow();
+
+        if (banido) {
+            JOptionPane.showMessageDialog(null, "Você foi banido");
+            Stage tela = (Stage) enviarButton.getScene().getWindow();
             tela.close();
-             listar(leitor.readLine());
-            
+            listar(leitor.readLine());
+        }
+
+        if (campoMensagem.getText().trim().equalsIgnoreCase("sair")) {
+
+            escritor.println("sair");
+            Stage tela = (Stage) enviarButton.getScene().getWindow();
+            tela.close();
+            listar(leitor.readLine());
+
         }
 
         String[] destino = campoMensagem.getText().split(":");
@@ -86,28 +102,22 @@ public class FXMLChatController implements Initializable {
             chatPane.appendText("você enviou " + campoMensagem.getText() + "\n");
         }
 
+        banido = true;
     }
 
     public void listar(String msg) {
         msg = msg.trim();
         msg = msg.substring(14);
         msg = msg.replaceAll(":", "");
-        
+
         String[] usuarios = msg.split(";");
-       
+
         online = FXCollections.observableArrayList(usuarios);
         online.remove(nickname);
     }
 
     public FXMLChatController() throws IOException {
         this.leitor = new BufferedReader(new InputStreamReader(cliente.getSocket().getInputStream()));
-    }
-    
-    public void fecharChat() {
-
-            Stage tela = (Stage) enviarButton.getScene().getWindow();
-            tela.close();
-        System.out.println("FECHEI");
     }
 
     @FXML
@@ -123,12 +133,12 @@ public class FXMLChatController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        nicknameLabel.setText(nicknameLabel.getText() +  nickname);
+        nicknameLabel.setText(nicknameLabel.getText() + nickname);
         new Thread(() -> {
             try {
-                while (true) {
+                while (x) {
+                    banido = false;
                     progressoBar.setProgress(-1.0F);
-                    sleep(1000);
                     String msg = leitor.readLine();
                     if (msg.startsWith("lista_usuarios")) {
                         listar(msg);
@@ -141,12 +151,10 @@ public class FXMLChatController implements Initializable {
                         msg = msg.substring(11);
                         chatPane.appendText(msg + "\n");
                     }
-
                 }
+
             } catch (IOException ex) {
-                Logger.getLogger(FXMLChatController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(FXMLChatController.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex);;
             }
 
         }).start();
