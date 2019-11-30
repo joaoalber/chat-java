@@ -139,11 +139,13 @@ public class Servidor {
                         Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     try {
+                        
                         clientesLogados.keySet().stream().filter((remetente) -> (clientesLogados.get(remetente) == cliente)).forEachOrdered((remetente) -> {
                             nickname = remetente;
                         });
-                        
                         mensagem(cliente, nickname);
+                        
+                        
                     } catch (IOException ex) {
                         clientesLogados.remove(nickname);   
                         clientesLogados.values().forEach((socket) -> {
@@ -200,8 +202,8 @@ public class Servidor {
                         escritor = new PrintStream(clientesLogados.get(destinatario[0]).getOutputStream(), true);
                         transmitir(escritor, remetente, destinatario[0], destinatario[1]);
                     } catch (NullPointerException e) {
+                        //System.out.println("O usuário " + nickname + " saiu ou foi banido");
                         escritor = new PrintStream(clientesLogados.get(nickname).getOutputStream(), true);
-
                         escritor.println(destinatario[0] + " não encontrado");
                     }
                 }

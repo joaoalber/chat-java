@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import static java.lang.Thread.sleep;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -35,6 +36,10 @@ public class FXMLChatController implements Initializable {
     PrintStream escritor;
     private boolean x = true;
     private boolean banido;
+    private Thread thread;
+    private Thread thread2;
+    private int contador;
+    private boolean t2 = true;
 
     public static void setCliente(Cliente cliente) {
         FXMLChatController.cliente = cliente;
@@ -69,16 +74,10 @@ public class FXMLChatController implements Initializable {
     private TextArea chatPane;
 
     @FXML
-    void enviarAction(ActionEvent event) throws IOException {
-        
+    void enviarAction(ActionEvent event) throws IOException, InterruptedException {
+        enviarButton.setText("Aguarde 3s..");
+        enviarButton.setDisable(true);
         escritor = new PrintStream(cliente.getSocket().getOutputStream(), true);
-
-        if (banido) {
-            JOptionPane.showMessageDialog(null, "Você foi banido");
-            Stage tela = (Stage) enviarButton.getScene().getWindow();
-            tela.close();
-            listar(leitor.readLine());
-        }
 
         if (campoMensagem.getText().trim().equalsIgnoreCase("sair")) {
 
@@ -103,6 +102,50 @@ public class FXMLChatController implements Initializable {
         }
 
         banido = true;
+
+    }
+
+    public void retornarButton() throws InterruptedException {
+        thread.sleep(5000);
+        enviarButton.setDisable(false);
+        Platform.runLater(() -> {
+            enviarButton.setText("Enviar");
+        }
+        );
+
+    }
+
+    public void threadDois() {
+        thread2 = new Thread(() -> {
+            while (t2) {
+                try {
+                    thread2.sleep(1000);
+                    if (banido) {
+                        contador++;
+                        if (contador > 7) {
+                            t2 = false;
+                            Platform.runLater(() -> {
+                                JOptionPane.showMessageDialog(null, "Você foi banido");
+                                Stage tela = (Stage) enviarButton.getScene().getWindow();
+                                tela.close();
+                                try {
+                                    listar(leitor.readLine());
+                                } catch (IOException ex) {
+                                    Logger.getLogger(FXMLChatController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                
+                                }
+                            );
+
+                        }
+                    }
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FXMLChatController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        });
+        thread2.start();
     }
 
     public void listar(String msg) {
@@ -134,10 +177,11 @@ public class FXMLChatController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         nicknameLabel.setText(nicknameLabel.getText() + nickname);
-        new Thread(() -> {
+        thread = new Thread(() -> {
             try {
                 while (x) {
                     banido = false;
+                    contador = 0;
                     progressoBar.setProgress(-1.0F);
                     String msg = leitor.readLine();
                     if (msg.startsWith("lista_usuarios")) {
@@ -151,13 +195,19 @@ public class FXMLChatController implements Initializable {
                         msg = msg.substring(11);
                         chatPane.appendText(msg + "\n");
                     }
+                    retornarButton();
+
                 }
 
             } catch (IOException ex) {
-                System.out.println(ex);;
+                System.out.println(ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FXMLChatController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        }).start();
+        });
+        thread.start();
+        threadDois();
 
     }
 
